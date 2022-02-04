@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-const routes = [
+export const routes = [
   {
     path: "/",
     name: "Home",
@@ -13,6 +13,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+  mode: "history",
 });
 
 export default router;
