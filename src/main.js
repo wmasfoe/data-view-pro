@@ -1,9 +1,10 @@
 import CompositionApi from "@vue/composition-api";
-import store from "./store";
-
-import Vue from "vue";
-import App from "./App.vue";
 import * as Echarts from "echarts";
+import Vue from "vue";
+
+import store from "@/store";
+import App from "@/App.vue";
+import "@/plugins/element";
 
 // qiankun 新增导入
 import VueRouter from "vue-router";
