@@ -39,7 +39,10 @@
           </div>
         </div>
       </template>
-      <template> 123 </template>
+      <template>
+        <div class="sales_chart"></div>
+        <div class="sales_list"></div>
+      </template>
     </el-card>
   </div>
 </template>
@@ -125,6 +128,15 @@ export default defineComponent({
     .radio_group {
       margin-right: 20px;
     }
+  }
+
+  .sales_chart {
+    width: 70%;
+    height: 100%;
+  }
+  .sales_list {
+    width: 30%;
+    height: 100%;
   }
 }
 </style>
