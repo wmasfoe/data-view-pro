@@ -6,6 +6,16 @@ module.exports = {
       "Access-Control-Allow-Origin": "*",
     },
     port: 8080, // 端口
+    proxy: {
+      "/api": {
+        target: process.env.VUE_APP_BASE_URL,
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api": "/",
+        },
+      },
+    },
   },
   configureWebpack: {
     output: {

@@ -4,7 +4,7 @@
  */
 export default (axios, config = {}) => {
   const defaultConfig = {
-    baseURL: process.env.VUE_APP_BASEURL,
+    baseURL: process.env.VUE_APP_BASE_URL,
     timeout: 10000,
     headers: {
       "Content-Type": "application/json;charset=UTF-8",

@@ -55,7 +55,7 @@ const responseInterceptorId = request.interceptors.response.use(
     pendingPool.delete(config.url);
 
     // console.log('响应response suc:', response)
-    showTip(err.message);
+    // showTip(err.message);
     return Promise.resolve(handleResponse(response));
   },
   // 对异常响应处理

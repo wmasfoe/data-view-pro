@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "dev": "NODE_ENV=development vue-cli-service serve",
+    "build": "NODE_ENV=production vue-cli-service build",
     "lint": "vue-cli-service lint",
     "prepare": "husky install",
     "mock": "json-server --watch __json_server__/data.json --port 4400"
   },
   "dependencies": {
+    "@babel/plugin-proposal-export-default-from": "^7.16.7",
     "@vue/composition-api": "^1.4.5",
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
