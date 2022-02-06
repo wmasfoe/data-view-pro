@@ -9,6 +9,9 @@ import {
   RadioButton,
   RadioGroup,
   DatePicker,
+  Table,
+  TableColumn,
+  Pagination,
 } from "element-ui";
 
 Vue.use(Card);
@@ -20,3 +23,6 @@ Vue.use(MenuItem);
 Vue.use(RadioButton);
 Vue.use(RadioGroup);
 Vue.use(DatePicker);
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Pagination);

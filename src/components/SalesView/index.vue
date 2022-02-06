@@ -288,14 +288,13 @@ export default defineComponent({
   }
 }
 
-/deep/ .el-card__body {
-  padding: 0 0 20px;
-}
-</style>
-
-<style lang="scss">
-.el-card__header {
-  border-bottom: none;
-  padding: 0;
+/deep/ {
+  .el-card__header {
+    border-bottom: none;
+    padding: 0;
+  }
+  .el-card__body {
+    padding: 0 0 20px;
+  }
 }
 </style>

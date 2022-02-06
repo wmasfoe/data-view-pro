@@ -3,7 +3,7 @@ export const filterMixin = {
     computedValue(value) {
       let index = 0,
         prefix = "",
-        _value = value,
+        _value = String(value),
         reg = /[0-9]*$/;
       // 不符合条件的
       if (_value.includes(",") || _value.includes("，")) {
