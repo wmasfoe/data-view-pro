@@ -22,10 +22,28 @@
             </div>
             <div class="list">
               <el-table :data="tableData" style="width: 100%">
-                <el-table-column prop="date" label="日期" width="180">
+                <el-table-column prop="order" label="排行" width="180">
+                </el-table-column>
+                <el-table-column prop="kw" label="关键词" width="180">
+                </el-table-column>
+                <el-table-column prop="totalSearch" label="总搜索量">
+                </el-table-column>
+                <el-table-column prop="userSearch" label="用户搜索量">
+                </el-table-column>
+                <el-table-column prop="click" label="点击率" width="180">
                 </el-table-column>
               </el-table>
-              <el-pagination></el-pagination>
+              <el-pagination
+                background
+                class="pagination"
+                layout="prev, pager, next"
+                :page-size="pageSize"
+                :page-count="currentPage"
+                :total="tableDataTotal"
+                @prev-click="(pageNum) => pageChange(pageNum)"
+                @next-click="(pageNum) => pageChange(pageNum)"
+                @current-change="(pageNum) => pageChange(pageNum)"
+              ></el-pagination>
             </div>
           </template>
         </Card>
@@ -38,7 +56,9 @@
               <el-radio-button label="商品" />
             </el-radio-group>
           </template>
-          <template></template>
+          <template>
+            <div class="chart"></div>
+          </template>
         </Card>
       </el-col>
     </el-row>
@@ -46,9 +66,16 @@
 </template>
 
 <script>
-import { defineComponent, reactive, toRefs } from "@vue/composition-api";
+import {
+  defineComponent,
+  reactive,
+  toRefs,
+  watchEffect,
+} from "@vue/composition-api";
 import { filterMixin } from "@/mixins";
 import Card from "./withCard";
+import { getKWTableData } from "@/api";
+
 export default defineComponent({
   name: "FooterView",
   mixins: [filterMixin],
@@ -58,12 +85,39 @@ export default defineComponent({
   setup() {
     const scopedState = reactive({
       tableData: [],
+      tableDataTotal: 0,
+      currentPage: 1,
+      pageSize: 4,
       classSelected: "品类",
       search_user_num: 123456,
       search_number: 123456,
     });
+
+    function pageChange(num) {
+      scopedState.currentPage = num;
+    }
+
+    async function initState() {
+      const {
+        state,
+        data: { total, list },
+      } = await getKWTableData({
+        currentPage: scopedState.currentPage,
+        pageSize: scopedState.pageSize,
+      });
+      if (state) {
+        scopedState.tableData = list;
+        scopedState.tableDataTotal = total;
+      }
+    }
+
+    watchEffect(() => {
+      initState();
+    });
+
     return {
       ...toRefs(scopedState),
+      pageChange,
     };
   },
 });
@@ -78,6 +132,12 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 0 10px;
+  margin-top: 20px;
+  .chart_wrapper {
+    width: 100%;
+    padding: 0 10px;
+  }
   .chart_title {
     color: #999;
     font-size: 14px;
@@ -92,5 +152,13 @@ export default defineComponent({
     width: 50%;
     min-height: 50px;
   }
+}
+.list {
+  margin-top: 20px;
+  padding: 0 20px 20px;
+}
+.pagination {
+  margin-top: 20px;
+  text-align: right;
 }
 </style>
