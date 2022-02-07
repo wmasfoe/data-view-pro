@@ -10,14 +10,14 @@
                 <div class="chart_search_user_number chart_data">
                   {{ search_user_num | computedValue }}
                 </div>
-                <div class="chart"></div>
+                <div class="chart" ref="searchUserChart"></div>
               </div>
               <div class="chart_wrapper">
                 <div class="chart_search chart_title">搜索量</div>
                 <div class="chart_search_number chart_data">
                   {{ search_number | computedValue }}
                 </div>
-                <div class="chart"></div>
+                <div class="chart" ref="searchTotalChart"></div>
               </div>
             </div>
             <div class="list">
@@ -73,6 +73,7 @@ import {
   watchEffect,
 } from "@vue/composition-api";
 import { filterMixin } from "@/mixins";
+import { useCharts } from "@/hooks";
 import Card from "./withCard";
 import { getKWTableData } from "@/api";
 
@@ -91,6 +92,70 @@ export default defineComponent({
       classSelected: "品类",
       search_user_num: 123456,
       search_number: 123456,
+    });
+
+    const { chartDom: searchUserChart } = useCharts({
+      xAxis: {
+        type: "category",
+        boundaryGap: false, // 取消 图标和 dom 边缘之间的空白
+      },
+      yAxis: {
+        show: false,
+      },
+      series: [
+        {
+          type: "line",
+          data: [100, 200, 213, 123, 126, 264, 129, 231, 325, 153],
+          areaStyle: {
+            color: "rgba(95,187,255, .5)",
+          },
+          lineStyle: {
+            color: "rgb(95,187,255)",
+          },
+          itemStyle: {
+            opacity: 0,
+          },
+          smooth: true,
+        },
+      ],
+      grid: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+      },
+    });
+
+    const { chartDom: searchTotalChart } = useCharts({
+      xAxis: {
+        type: "category",
+        boundaryGap: false, // 取消 图标和 dom 边缘之间的空白
+      },
+      yAxis: {
+        show: false,
+      },
+      series: [
+        {
+          type: "line",
+          data: [100, 200, 213, 123, 126, 264, 129, 231, 325, 153],
+          areaStyle: {
+            color: "rgba(95,187,255, .5)",
+          },
+          lineStyle: {
+            color: "rgb(95,187,255)",
+          },
+          itemStyle: {
+            opacity: 0,
+          },
+          smooth: true, // 平滑的折线
+        },
+      ],
+      grid: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+      },
     });
 
     function pageChange(num) {
@@ -117,6 +182,8 @@ export default defineComponent({
 
     return {
       ...toRefs(scopedState),
+      searchUserChart,
+      searchTotalChart,
       pageChange,
     };
   },
@@ -149,8 +216,7 @@ export default defineComponent({
     letter-spacing: 2px;
   }
   .chart {
-    width: 50%;
-    min-height: 50px;
+    height: 50px;
   }
 }
 .list {
