@@ -57,7 +57,7 @@
             </el-radio-group>
           </template>
           <template>
-            <div class="chart"></div>
+            <div class="chart" ref="pieChart"></div>
           </template>
         </Card>
       </el-col>
@@ -125,7 +125,6 @@ export default defineComponent({
         left: 0,
       },
     });
-
     const { chartDom: searchTotalChart } = useCharts({
       xAxis: {
         type: "category",
@@ -150,6 +149,17 @@ export default defineComponent({
           smooth: true, // 平滑的折线
         },
       ],
+      grid: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+      },
+    });
+    const { chartDom: pieChart } = useCharts({
+      xAxis: {},
+      yAxis: {},
+      series: [],
       grid: {
         top: 0,
         right: 0,
@@ -184,6 +194,7 @@ export default defineComponent({
       ...toRefs(scopedState),
       searchUserChart,
       searchTotalChart,
+      pieChart,
       pageChange,
     };
   },
@@ -200,10 +211,10 @@ export default defineComponent({
   flex-direction: row;
   justify-content: space-between;
   padding: 0 10px;
-  margin-top: 20px;
   .chart_wrapper {
     width: 100%;
     padding: 0 10px;
+    margin-top: 20px;
   }
   .chart_title {
     color: #999;

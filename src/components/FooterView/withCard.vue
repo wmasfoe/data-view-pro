@@ -9,7 +9,9 @@
       </div>
     </template>
     <template>
-      <slot></slot>
+      <div class="chartWrapper">
+        <slot></slot>
+      </div>
     </template>
   </el-card>
 </template>
@@ -42,5 +44,8 @@ export default defineComponent({
     top: 50%;
     transform: translateY(-50%);
   }
+}
+.chartWrapper {
+  min-height: 452px;
 }
 </style>
