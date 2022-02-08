@@ -65,3 +65,7 @@ export async function getKWTableData({ currentPage, pageSize }) {
   }
   return res;
 }
+
+export async function getPieChartData() {
+  return await get("/api/pieData");
+}

@@ -57,7 +57,7 @@
             </el-radio-group>
           </template>
           <template>
-            <div class="chart" ref="pieChart"></div>
+            <div class="chart pie_chart" ref="pieChart"></div>
           </template>
         </Card>
       </el-col>
@@ -71,11 +71,13 @@ import {
   reactive,
   toRefs,
   watchEffect,
+  onMounted,
+  watch,
 } from "@vue/composition-api";
 import { filterMixin } from "@/mixins";
 import { useCharts } from "@/hooks";
 import Card from "./withCard";
-import { getKWTableData } from "@/api";
+import { getKWTableData, getPieChartData } from "@/api";
 
 export default defineComponent({
   name: "FooterView",
@@ -86,6 +88,7 @@ export default defineComponent({
   setup() {
     const scopedState = reactive({
       tableData: [],
+      pieChartData: [],
       tableDataTotal: 0,
       currentPage: 1,
       pageSize: 4,
@@ -156,10 +159,30 @@ export default defineComponent({
         left: 0,
       },
     });
-    const { chartDom: pieChart } = useCharts({
+    const {
+      chartDom: pieChart,
+      chartRef: pieChartRef,
+      refreshChartForData,
+    } = useCharts({
+      title: [
+        {
+          text: "品类分布",
+          textStyle: {
+            fontSize: "14px",
+            color: "#666",
+          },
+          left: 20,
+          top: 20,
+        },
+      ],
       xAxis: {},
       yAxis: {},
-      series: [],
+      series: [
+        {
+          type: "pie",
+          data: scopedState.pieChartData,
+        },
+      ],
       grid: {
         top: 0,
         right: 0,
@@ -172,7 +195,7 @@ export default defineComponent({
       scopedState.currentPage = num;
     }
 
-    async function initState() {
+    async function initKWTable() {
       const {
         state,
         data: { total, list },
@@ -187,7 +210,15 @@ export default defineComponent({
     }
 
     watchEffect(() => {
-      initState();
+      initKWTable();
+    });
+
+    onMounted(async () => {
+      const { state, data } = await getPieChartData();
+      if (state) {
+        scopedState.pieChartData = data;
+        refreshChartForData(pieChartRef, data);
+      }
     });
 
     return {
@@ -237,5 +268,9 @@ export default defineComponent({
 .pagination {
   margin-top: 20px;
   text-align: right;
+}
+.pie_chart {
+  width: 100%;
+  min-height: 452px;
 }
 </style>
