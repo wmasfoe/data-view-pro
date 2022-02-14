@@ -1,5 +1,8 @@
 # vue+echarts 数据可视化
 
+- 存储库：GitHub
+- 基于 Vercel 部署
+
 ## 项目架构
 
 - vue

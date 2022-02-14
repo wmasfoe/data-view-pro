@@ -276,6 +276,7 @@ export default defineComponent({
         currentPage: scopedState.currentPage,
         pageSize: scopedState.pageSize,
       });
+      console.log(state, list, total);
       if (state) {
         scopedState.tableData = list;
         scopedState.tableDataTotal = total;

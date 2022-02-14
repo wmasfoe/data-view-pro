@@ -4,7 +4,7 @@ async function get(url, data, option = {}) {
   try {
     const { data: resData } = await axios.request(url, {
       method: "GET",
-      params: { data },
+      params: { ...data },
       // axios get 请求参数为：params: { data: {...} }，post 请求参数为：data: {...} 统一为 post 格式
       ...option,
     });
@@ -41,7 +41,7 @@ async function post(url, data, option = {}) {
 }
 
 export async function getSalesTopList() {
-  return await get("/api/topList");
+  return await get("/api/topList.js");
 }
 
 export async function getKWTableData({ currentPage, pageSize }) {
