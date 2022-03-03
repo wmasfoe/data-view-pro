@@ -41,7 +41,7 @@ async function post(url, data, option = {}) {
 }
 
 export async function getSalesTopList() {
-  return await get("/api/topList.js");
+  return await get("/api/topList");
 }
 
 export async function getKWTableData({ currentPage, pageSize }) {

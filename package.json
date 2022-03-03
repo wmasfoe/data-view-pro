@@ -1,14 +1,13 @@
 {
-  "name": "a",
+  "name": "data-view",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "NODE_ENV=development vue-cli-service serve",
-    "dev": "npm run mock & npm run serve",
-    "build": "NODE_ENV=production vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "prepare": "husky install",
-    "mock": "json-server --watch __json_server__/data.json --port 4400"
+    "serve": "cross-env NODE_ENV=development vue-cli-service serve",
+    "dev": "cross-env npm run mock & npm run serve",
+    "build": "cross-env NODE_ENV=production vue-cli-service build",
+    "lint": "cross-env vue-cli-service lint",
+    "mock": "cross-env json-server --watch __json_server__/data.json --port 4400"
   },
   "dependencies": {
     "@babel/plugin-proposal-export-default-from": "^7.16.7",
@@ -33,37 +32,11 @@
     "@vue/eslint-config-standard": "^5.1.2",
     "babel-eslint": "^10.1.0",
     "babel-plugin-component": "^1.1.1",
-    "babel-preset-es2015": "^6.24.1",
-    "eslint": "^6.7.2",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "husky": "^7.0.0",
-    "lint-staged": "^9.5.0",
-    "node-sass": "^4.12.0",
+    "cross-env": "^7.0.3",
     "prettier": "2.5.1",
     "pretty-quick": "^3.1.3",
+    "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue}": [
-      "git add"
-    ],
-    "*.js": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest",
-      "prettier"
-    ]
   }
 }
