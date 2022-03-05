@@ -30,7 +30,7 @@
                 </el-table-column>
                 <el-table-column prop="userSearch" label="用户搜索量">
                 </el-table-column>
-                <el-table-column prop="click" label="点击率" width="180">
+                <el-table-column prop="click" label="点击率">
                 </el-table-column>
               </el-table>
               <el-pagination
@@ -78,6 +78,11 @@ import { filterMixin } from "@/mixins";
 import { useCharts } from "@/hooks";
 import Card from "./withCard";
 import { getKWTableData, getPieChartData } from "@/api";
+import { refreshChartForData } from "@/hooks/useCharts";
+
+import pieChartConfig from '@/chartsConfig/footer-view.piechart'
+import searchTotalConfig from "@/chartsConfig/footer-view.searchTotal";
+import searchUserConfig from "@/chartsConfig/footer-view.searchUser";
 
 export default defineComponent({
   name: "FooterView",
@@ -98,171 +103,14 @@ export default defineComponent({
     });
 
     // 搜索用户数图表
-    const { chartDom: searchUserChart } = useCharts({
-      xAxis: {
-        type: "category",
-        boundaryGap: false, // 取消 图标和 dom 边缘之间的空白
-      },
-      yAxis: {
-        show: false,
-      },
-      series: [
-        {
-          type: "line",
-          data: [100, 200, 213, 123, 126, 264, 129, 231, 325, 153],
-          areaStyle: {
-            color: "rgba(95,187,255, .5)",
-          },
-          lineStyle: {
-            color: "rgb(95,187,255)",
-          },
-          itemStyle: {
-            opacity: 0,
-          },
-          smooth: true,
-        },
-      ],
-      grid: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    });
+    const { chartDom: searchUserChart } = useCharts(searchUserConfig);
     // 搜索量图表
-    const { chartDom: searchTotalChart } = useCharts({
-      xAxis: {
-        type: "category",
-        boundaryGap: false, // 取消 图标和 dom 边缘之间的空白
-      },
-      yAxis: {
-        show: false,
-      },
-      series: [
-        {
-          type: "line",
-          data: [100, 200, 213, 123, 126, 264, 129, 231, 325, 153],
-          areaStyle: {
-            color: "rgba(95,187,255, .5)",
-          },
-          lineStyle: {
-            color: "rgb(95,187,255)",
-          },
-          itemStyle: {
-            opacity: 0,
-          },
-          smooth: true, // 平滑的折线
-        },
-      ],
-      grid: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-    });
+    const { chartDom: searchTotalChart } = useCharts(searchTotalConfig);
     // 累计销售图表
     const {
       chartDom: pieChart,
       chartRef: pieChartRef,
-      refreshChartForData,
-    } = useCharts({
-      title: [
-        {
-          text: "品类分布",
-          textStyle: {
-            fontSize: "14px",
-            color: "#666",
-          },
-          left: 20,
-          top: 20,
-        },
-        {
-          text: "累计订单量",
-          subtext: "333",
-          // 偏移，使 text 位于环形图表中间
-          x: "34%",
-          y: "44%",
-          textAlign: "center",
-          textStyle: {
-            fontSize: "14px",
-            color: "#999",
-          },
-          subtextStyle: {
-            fontSize: "28px",
-            color: "#333",
-          },
-        },
-      ],
-      xAxis: {
-        show: false,
-      },
-      yAxis: {
-        show: false,
-      },
-      series: [
-        {
-          name: "品类分布",
-          type: "pie",
-          data: scopedState.pieChartData,
-          label: {
-            normal: {
-              show: true,
-              position: "outer",
-              formatter: function (params) {
-                return params.data.legendname;
-              },
-            },
-          },
-          labelLine: {
-            length: "5px", // label 与 图例之间的连线长度
-            length2: "3px",
-            smooth: true,
-          },
-          center: [
-            // 圆心位置
-            "35%",
-            "50%",
-          ],
-          radius: [
-            // 半径
-            "45%",
-            "60%",
-          ],
-          itemStyle: {
-            borderWidth: 4, // 每项之间有间隔
-            borderColor: "#fff",
-          },
-        },
-      ],
-      grid: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      },
-      legend: {
-        type: "scroll", // 高度超出可滚动
-        orient: "vertical", // 竖向排列
-        height: 250,
-        left: "70%",
-        top: "middle", // 居中
-      },
-      tooltip: {
-        // 鼠标hover时展示
-        trigger: "item",
-        formatter: function (params) {
-          // hover 时的提示文本
-          const toolTipText = `
-            ${params.marker + params.data.legendname} <br />
-            数量: ${params.data.value} <br />
-            占比: ${params.data.percent}
-          `;
-
-          return toolTipText;
-        },
-      },
-    });
+    } = useCharts(pieChartConfig);
 
     function pageChange(num) {
       scopedState.currentPage = num;
@@ -294,7 +142,7 @@ export default defineComponent({
           return (item.name = `${item.legendname} | ${item.percent}`);
         });
         scopedState.pieChartData = data;
-        refreshChartForData(pieChartRef, data);
+        refreshChartForData(pieChartRef, [data]);
       }
     });
 
